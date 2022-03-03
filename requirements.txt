@@ -1,3 +1,4 @@
-colorama
+pandas
+plotly
+jupyter
 requests
-termcolor
