@@ -13,9 +13,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - name: Install dependencies
-        run: pip install requests
+        run: pip install aiohttp
       - name: Check URLs
-        run: python ./check_urls.py
+        run: python -W ignore::DeprecationWarning ./check_urls.py
       - name: Commit changes
         run: |
           git config user.name github-actions
