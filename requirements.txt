@@ -1,3 +1,7 @@
-colorama
+pandas
+plotly
 requests
-termcolor
+jupyterlab
+ipyleavelet
+python-geoip-python3
+python-geoip-geolite2
