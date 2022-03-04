@@ -1,4 +1,6 @@
 pandas
 plotly
-jupyter
 requests
+jupyterlab
+ipyleavelet
+python-geoip-geolite2
