@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 
 import argparse
+import asyncio
 import csv
 import datetime
 import logging
-import os
-import requests
 import sys
 
-from multiprocessing import Pool
 from pathlib import Path
+
+import aiohttp
+
 
 try:
     assert sys.stdout.isatty()
@@ -26,14 +27,13 @@ URLS_PATH = Path("urls.txt")
 OUTPUT_PATH = Path("data.csv")
 
 
-def check(url):
-    logging.debug("Checking %s", url)
+async def check_url(session, url, i):
     try:
-        _response = requests.get(url, timeout=30)
-        logging.info(colored("ok %s", "green"), url)
-        return
+        async with session.get(url) as _:
+            logging.info(colored("%s : ok: %s", "green"), f"{i: >5}", url)
+            return
     except Exception as e:
-        logging.info(colored("error: %s", "red"), url)
+        logging.info(colored("%s : error: %s", "red"), f"{i: >5}", url)
         return {
             "time": datetime.datetime.now().isoformat(),
             "url": url,
@@ -41,17 +41,19 @@ def check(url):
         }
 
 
-def check_urls(urls, output_stream):
-    # time that the run started
+async def check_urls(urls, output_stream):
     started = datetime.datetime.now().isoformat()
 
-    # start up processes to check the URLs
-    with Pool(len(os.sched_getaffinity(0))) as pool:
-        logging.info(colored("%s checking %d urls", "yellow"), started, len(urls))
-        for result in pool.map(check, urls):
-            if result:
-                result["run"] = started
-                output_stream.writerow({"run": started, **result})
+    async with aiohttp.ClientSession() as session:
+        rows = await asyncio.gather(
+            *(
+                asyncio.ensure_future(check_url(session, url, i))
+                for i, url in enumerate(urls)
+            )
+        )
+
+    for row in (_ for _ in rows if _ is not None):
+        output_stream.writerow({"run": started, **row})
 
 
 def main():
@@ -78,7 +80,8 @@ def main():
         writer = csv.DictWriter(_fh, fieldnames=["run", "time", "url", "error"])
         if not _fh.tell():
             writer.writeheader()
-        check_urls(urls, writer)
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(check_urls(urls, writer))
 
 
 if __name__ == "__main__":
