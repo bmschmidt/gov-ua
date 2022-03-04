@@ -28,6 +28,7 @@ OUTPUT_PATH = Path("data.csv")
 
 
 async def check_url(session, url, i):
+    logging.debug(colored("Checking %s", "yellow"), url)
     try:
         async with session.get(url) as _:
             logging.info(colored("%s : ok: %s", "green"), f"{i: >5}", url)
@@ -44,13 +45,15 @@ async def check_url(session, url, i):
 async def check_urls(urls, output_stream):
     started = datetime.datetime.now().isoformat()
 
-    async with aiohttp.ClientSession() as session:
-        rows = await asyncio.gather(
-            *(
-                asyncio.ensure_future(check_url(session, url, i))
-                for i, url in enumerate(urls)
-            )
-        )
+    connector = aiohttp.TCPConnector(limit=50)
+
+    async with aiohttp.ClientSession(connector=connector) as session:
+        tasks = []
+        for i, url in enumerate(urls):
+            tasks.append(asyncio.ensure_future(check_url(session, url, i)))
+            await asyncio.sleep(0.5)
+
+        rows = await asyncio.gather(*tasks)
 
     for row in (_ for _ in rows if _ is not None):
         output_stream.writerow({"run": started, **row})
