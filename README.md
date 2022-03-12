@@ -7,8 +7,8 @@ query] to find URLs containing `.gov.ua`:
 
 You can find a couple Notebooks containing some analysis in the repo:
 
-* [Websites]: how to put the websites on a map to see where they are hosted.
-* [Outage]: exploring an outage that happened on March 3.
+* [Websites]: how to put the websites on a [map](https://edsu.github.io/gov-ua/Websites.html) to see where they are hosted.
+* [Outage]: exploring an outage that happened on March 3 and putting them on a [map](https://edsu.github.io/gov-ua/Outage.html).
 
 [Websites]: https://github.com/edsu/gov-ua/blob/main/Websites.ipynb
 [Outage]: https://github.com/edsu/gov-ua/blob/main/Outage.ipynb
