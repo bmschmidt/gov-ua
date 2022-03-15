@@ -1,6 +1,6 @@
 This GitHub repository contains a small program to monitor Ukrainian
 government websites and their availability, and log errors to the file
-`data.csv`.
+`data.csv.gz`.
 
 The list of Ukrainian government homepages was created using a [Wikidata SPARQL
 query] to find URLs containing `.gov.ua`:
