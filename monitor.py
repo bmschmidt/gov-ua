@@ -26,8 +26,6 @@ def main():
         data.writeheader()
 
     while True:
-        # make sure csv is up to date after each run
-        fh.flush()
 
         # time that the run started
         started = datetime.datetime.now()
@@ -39,6 +37,9 @@ def main():
                 if result:
                     result["run"] = started.isoformat()
                     data.writerow(result)
+
+        # make sure csv is up to date after each run
+        fh.flush()
 
         # sleep for a bit based on how long the run took
         elapsed = datetime.datetime.now() - started
