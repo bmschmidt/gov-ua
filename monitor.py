@@ -14,8 +14,7 @@ from colorama import init
 from termcolor import colored
 from pathlib import Path
 
-# collect data every 30 mins
-sleep_secs = 60 * 30
+from consolidate import main as consolidate 
 
 def main(fin): # Aarg, an arg for main!
     init()

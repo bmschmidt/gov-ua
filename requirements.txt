@@ -1,11 +1,4 @@
-folium
-pandas
-plotly
 requests
-jupyterlab
-ipyleaflet
-python-geoip-python3
-python-geoip-geolite2
 aiohttp
 pyarrow
 colorama
