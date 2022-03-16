@@ -6,6 +6,7 @@ import csv
 import datetime
 import logging
 import sys
+from socket import gethostbyname
 
 from pathlib import Path
 
@@ -24,8 +25,6 @@ except (AssertionError, ImportError):
 
 
 URLS_PATH = Path("urls.txt")
-OUTPUT_PATH = Path("data.csv")
-
 
 async def check_url(session, url, i):
     logging.debug(colored("Checking %s", "yellow"), url)
