@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - name: Install dependencies
-        run: pip install aiohttp pyarrow
+        run: pip install aiohttp pyarrow requests
       - name: Check URLs
         run: python -W ignore::DeprecationWarning ./monitor.py
       - name: Commit changes
