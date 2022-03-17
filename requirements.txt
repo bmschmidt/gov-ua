@@ -1,5 +1,3 @@
 requests
 aiohttp
 pyarrow
-colorama
-termcolor

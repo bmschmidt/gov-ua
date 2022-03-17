@@ -10,8 +10,15 @@ import pandas as pd
 import random
 import sys
 
-from colorama import init
-from termcolor import colored
+try:
+    from colorama import init
+    from termcolor import colored
+except:
+    def colored(x):
+        return x
+    def init():
+        return
+    
 from pathlib import Path
 
 from consolidate import main as consolidate 
