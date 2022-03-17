@@ -6,7 +6,6 @@ import pathlib
 import datetime
 import requests
 import multiprocessing
-import pandas as pd
 import random
 import sys
 
